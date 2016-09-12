@@ -161,12 +161,51 @@ Ch2Prob30c = abs(Ch2Prob30Rand);
 Ch2Prob30d = max(Ch2Prob30Rand);
 
 % 31.)
-Ch2Prob31Mat = rand([3,5])
-Ch2Prob31a = max(Ch2Prob31Mat)
-Ch2Prob31b = max(Ch2Prob31Mat,[],2)
-Ch2Prob31c = max(max(Ch2Prob31Mat))
+Ch2Prob31Mat = rand([3,5]);
+Ch2Prob31a = max(Ch2Prob31Mat);
+Ch2Prob31b = max(Ch2Prob31Mat,[],2);
+Ch2Prob31c = max(max(Ch2Prob31Mat));
+
 
 %% Chapter 3 Exercises
 %       1,4,6,8,13
 
-disp('Chapter 1 Exercises')
+disp('Chapter 3 Exercises')
+
+% 1.)
+%  This script will calculate the volume of a hollow sphere
+%  First, user must input the inner and outer radii of the sphere
+InnerRad = input('Enter the inner radius of the sphere in meters: ');
+OuterRad = input('Enter the outer radius of the sphere in meters: ');
+%  Calculate the volume fo the hollow sphere
+Volume = ((4*pi) / 3) * (OuterRad^3 - InnerRad^3);
+% Display the volume of the hollow sphere
+formatSpec = 'The volume of the hollow shpere is %4.2f m^3\n\n';
+fprintf(formatSpec,Volume)
+
+
+% 4.)
+UserMat = input('Enter a matrix: ');
+UserMat
+
+% 6.)
+fprintf('%f\n',12345.6789);
+fprintf('%10.4f\n', 12345.6789);
+fprintf('%10.2f\n', 12345.6789);
+fprintf('%6.4f\n', 12345.6789);
+fprintf('%2.4f\n', 12345.6789);
+
+% 8.)
+FlowM = input('Enter the flow in m^3/s: ');
+FlowFt = FlowM / (28/1000);
+formatSpec = 'A flow rate of %5.2f meters per sec\nis equivalent to %5.2f feet per sec';
+fprintf(formatSpec,FlowM,FlowFt)
+
+% 13.)
+xValue = input('Enter the value of the vector in the x direction: ');
+yValue = input('Enter the value of the vector in the y direction: ');
+zValue = input('Enter the value of the vector in the z direction: ');
+xUnit = xValue / sqrt(xValue^2 + yValue^2 + zValue^2);
+yUnit = yValue / sqrt(xValue^2 + yValue^2 + zValue^2);
+zUnit = zValue / sqrt(xValue^2 + yValue^2 + zValue^2);
+UnitVector = [xUnit, yUnit, zUnit];
