@@ -32,18 +32,45 @@
 %  
 %  variables
 %  --------
-%  SubjectID    - array of participant ID numbers
-%  Age          - ages of participants in years
-%  Gender       - genders of participants
-%  Weight       - weight of participants in kg
-%  Day1         - isometric strength of participants on Day 1
-%  Day2         - isometric strength of participants on Day 2
-%  Day3         - isometric strength of participants on Day 3
-%  
+%  SubjectID                    - array of participant ID numbers
+%  Age                          - ages of participants in years
+%  Gender                       - genders of participants
+%  Weight                       - weight of participants in kg
+%  Day1                         - isometric strength of participants on Day 1
+%  Day2                         - isometric strength of participants on Day 2
+%  Day3                         - isometric strength of participants on Day 3
+%  maleNums                     - Subject ID of male participants
+%  maleIsoIndMeans              - individual mean isometric strength values across all 3 days for all male participants
+%  femaleNums                   - Subject numbers of female participants
+%  femaleIsoIndMeans            - individual mean isometric strength values across all 3 days for all female participants
+%  maleGroupIsoMean             - single mean value for male group
+%  femaleGroupIsoMean           - single mean value for female group
+%  day1toDay2                   - participants that improved their isometric strength between Day 1 and Day 2                      
+%  day2toDay3                   - participants that improved their isometric strength between Day 2 and Day 3
+%  normDay1mean                 - group means for Day 1 normalized for participant weights
+%  normDay2mean                 - group means for Day 2 normalized for participant weights
+%  normDay3mean                 - group means for Day 3 normalized for participant weights
+%  Results                      - 13 x 11 matrix to organize and manipulate outcome measures for exporting as table
+%  RESULTSmaleNums              - 13 Row cell array for ResultsTable containing maleNums
+%  RESULTSmaleIsoIndMeans       - 13 Row cell array for ResultsTable containing maleIsoIndMeans
+%  RESULTSfemaleNums            - 13 Row cell array for ResultsTable containing femaleNums
+%  RESULTSfemaleIsoIndMeans     - 13 Row cell array for ResultsTable containing femaleIsoIndMeans
+%  RESULTSmaleGroupIsoMean      - 13 Row cell array for ResultsTable containing maleGroupIsoMean
+%  RESULTSfemaleGroupIsoMean    - 13 Row cell array for ResultsTable containing femaleGroupIsoMean
+%  RESULTSday1toDay2            - 13 Row cell array for ResultsTable containing day1toDay2
+%  RESULTSday2toDay3            - 13 Row cell array for ResultsTable containing day2toDay3
+%  RESULTSnormDay1mean          - 13 Row cell array for ResultsTable containing normDay1mean
+%  RESULTSnormDay2mean          - 13 Row cell array for ResultsTable containing normDay2mean
+%  RESULTSnormDay3mean          - 13 Row cell array for ResultsTable containing normDay3mean
+%  ResultsTable                 - Table contianing column arrays for all outcome variables calculated from data set
 %  
 %  
 
+
+
+
 %% Part 3
+% (Parts 1 and 2 containined general instructions for the assignment)
 
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -65,13 +92,13 @@
   %                                                                  %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
-[maleIsoIndMeans, femaleIsoIndMeans, maleGroupIsoMean, femaleGroupIsoMean] = genderIsoCalc(Gender, Day1, Day2, Day3);
+[maleNums, femaleNums, maleIsoIndMeans, femaleIsoIndMeans, maleGroupIsoMean, femaleGroupIsoMean] = genderIsoCalc(Gender, Day1, Day2, Day3);
 
 %% Part 5  
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %                                                             %
-  %  Run dayComparator function to determine partiicpants that  %
+  %  Run dayComparator function to determine participants that  %
   %     improved their isometric strength between the two days  %
   %     being compared                                          %
   %                                                             %
@@ -100,68 +127,100 @@
   %                                                %
   %  Create results table and export as .csv file  %
   %     Create NaN matrix to store results         %
-  %     Insert columns of results into NaN matrix  %
-  %     Replace excess NaN values with blanks      %
-  %     Create Rsults Table from matrix            %
-  %     Write results table to csv file            %
   %                                                %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   
 
-TryResults = NaN(13,9);
+Results = NaN(13,11);
 
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %                                             %
+  %  Insert columns of results into NaN matrix  %
+  %                                             %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+
+for i = 1:length(maleNums)
+Results(i,1) = maleNums(i);
+end  
+  
 for i = 1:length(maleIsoIndMeans)
-TryResults(i,1) = maleIsoIndMeans(i);
+Results(i,2) = maleIsoIndMeans(i);
+end
+
+for i = 1:length(femaleNums)
+Results(i,3) = femaleNums(i);
 end
 
 for i = 1:length(femaleIsoIndMeans)
-TryResults(i,2) = femaleIsoIndMeans(i);
+Results(i,4) = femaleIsoIndMeans(i);
 end
 
 for i = 1:length(maleGroupIsoMean)
-TryResults(i,3) = maleGroupIsoMean(i);
+Results(i,5) = maleGroupIsoMean(i);
 end
 
 for i = 1:length(femaleGroupIsoMean)
-TryResults(i,4) = femaleGroupIsoMean(i);
+Results(i,6) = femaleGroupIsoMean(i);
 end
 
 for i = 1:length(day1toDay2)
-TryResults(i,5) = day1toDay2(i);
+Results(i,7) = day1toDay2(i);
 end
 
 for i = 1:length(day2toDay3)
-TryResults(i,6) = day2toDay3(i);
+Results(i,8) = day2toDay3(i);
 end
 
 for i = 1:length(normDay1mean)
-TryResults(i,7) = normDay1mean(i);
+Results(i,9) = normDay1mean(i);
 end
 
 for i = 1:length(normDay2mean)
-TryResults(i,8) = normDay2mean(i);
+Results(i,10) = normDay2mean(i);
 end
 
 for i = 1:length(normDay3mean)
-TryResults(i,9) = normDay3mean(i);
+Results(i,11) = normDay3mean(i);
 end
 
-TryResults = num2cell(TryResults);
-TryResults(cellfun(@isnan,TryResults))={[]};
 
-maleIsoIndMeans = TryResults(:,1);
-femaleIsoIndMeans = TryResults(:,2);
-maleGroupIsoMean = TryResults(:,3);
-femaleGroupIsoMean = TryResults(:,4);
-day1toDay2 = TryResults(:,5);
-day2toDay3 = TryResults(:,6);
-normDay1mean = TryResults(:,7);
-normDay2mean = TryResults(:,8);
-normDay3mean = TryResults(:,9);
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %                                         %
+  %  Replace excess NaN values with blanks  %
+  %                                         %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+Results = num2cell(Results);
+Results(cellfun(@isnan,Results))={[]};
 
-ResultsTable = table(maleIsoIndMeans, femaleIsoIndMeans, maleGroupIsoMean, femaleGroupIsoMean, day1toDay2, day2toDay3, normDay1mean, normDay2mean, normDay3mean,'VariableNames',{'maleIsoIndMeans', 'femaleIsoIndMeans', 'maleGroupIsoMean', 'femaleGroupIsoMean', 'day1toDay2', 'day2toDay3', 'normDay1mean', 'normDay2mean','normDay3mean'});
-writetable(ResultsTable,'Assignment5Results.csv','WriteVariableNames',true)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %                                    %
+  %  Create Results Table from matrix  %
+  %                                    %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+RESULTSmaleNums = Results(:,1);
+RESULTSmaleIsoIndMeans = Results(:,2);
+RESULTSfemaleNums = Results(:,3);
+RESULTSfemaleIsoIndMeans = Results(:,4);
+RESULTSmaleGroupIsoMean = Results(:,5);
+RESULTSfemaleGroupIsoMean = Results(:,6);
+RESULTSday1toDay2 = Results(:,7);
+RESULTSday2toDay3 = Results(:,8);
+RESULTSnormDay1mean = Results(:,9);
+RESULTSnormDay2mean = Results(:,10);
+RESULTSnormDay3mean = Results(:,11);
+
+
+ResultsTable = table(RESULTSmaleNums, RESULTSmaleIsoIndMeans, RESULTSfemaleNums, RESULTSfemaleIsoIndMeans, RESULTSmaleGroupIsoMean, RESULTSfemaleGroupIsoMean, RESULTSday1toDay2, RESULTSday2toDay3, RESULTSnormDay1mean, RESULTSnormDay2mean, RESULTSnormDay3mean,'VariableNames',{'MaleParticipants', 'maleIsoIndMeans', 'FemaleParticipants', 'femaleIsoIndMeans', 'maleGroupIsoMean', 'femaleGroupIsoMean', 'day1toDay2', 'day2toDay3', 'normDay1mean', 'normDay2mean','normDay3mean'});
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %                                   %
+  %  Write results table to csv file  %
+  %                                   %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+writetable(ResultsTable,'iso-results.csv','WriteVariableNames',true)
 
 

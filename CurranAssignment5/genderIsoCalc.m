@@ -1,4 +1,4 @@
-function [maleIsoIndMeans, femaleIsoIndMeans, maleGroupIsoMean, femaleGroupIsoMean] = genderIsoCalc(Gender, Day1, Day2, Day3)
+function [maleNums, femaleNums, maleIsoIndMeans, femaleIsoIndMeans, maleGroupIsoMean, femaleGroupIsoMean] = genderIsoCalc(Gender, Day1, Day2, Day3)
 %% genderIsoCalc
 %  
 %  Christopher Curran, East Carolina University
@@ -24,8 +24,8 @@ function [maleIsoIndMeans, femaleIsoIndMeans, maleGroupIsoMean, femaleGroupIsoMe
 %  
 %  outputs
 %  --------
-%  maleIsoIndMeans      - individual mean isometric strength values across all 3 days for male participants
-%  femaleIsoIndMeans    - individual mean isometric strength values across all 3 days for female participants
+%  maleIsoIndMeans      - male participant numbers and individual mean isometric strength values across all 3 days for male participants
+%  femaleIsoIndMeans    - female participant numbers and individual mean isometric strength values across all 3 days for female participants
 %  maleGroupIsoMean     - single mean value for male participants
 %  femaleGroupIsoMean   - single mean value for female participants
 %  
@@ -67,10 +67,10 @@ FemaleCounter = 1;
 
 for i = 1:length(Gender)
     if strcmp(Gender(i),'M') == 1;
-        MaleStrengthMatrix(MaleCounter,1:3) = [Day1(i),Day2(i),Day3(i)];
+        MaleStrengthMatrix(MaleCounter,1:4) = [i, Day1(i),Day2(i),Day3(i)];
         MaleCounter = MaleCounter + 1;
     else
-        FemaleStrengthMatrix(FemaleCounter,1:3) = [Day1(i),Day2(i),Day3(i)];
+        FemaleStrengthMatrix(FemaleCounter,1:4) = [i, Day1(i),Day2(i),Day3(i)];
         FemaleCounter = FemaleCounter + 1;
     end
 end
@@ -81,8 +81,11 @@ end
 %                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-maleIsoIndMeans = mean(MaleStrengthMatrix,2);
-femaleIsoIndMeans = mean(FemaleStrengthMatrix,2);
+maleNums = MaleStrengthMatrix(:,1);
+femaleNums = FemaleStrengthMatrix(:,1);
+
+maleIsoIndMeans = mean(MaleStrengthMatrix(:,2:4),2);
+femaleIsoIndMeans = mean(FemaleStrengthMatrix(:,2:4),2);
 
 maleGroupIsoMean = mean(maleIsoIndMeans);
 femaleGroupIsoMean = mean(femaleIsoIndMeans);
